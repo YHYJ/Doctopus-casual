@@ -1,0 +1,64 @@
+application = 'chitu'
+
+send_to_where = 'TODO'      # chitu将数据发送到哪里，可选值为：influxdb, kafka, mqtt
+
+[data_stream]
+    group = 'test_group'
+    consumer = 'chitu'
+# the collector data store position ,"data_queue"
+[redis_instance]
+    [[redis_instance.address]]
+    # local ip or remote ip ?
+    host = "127.0.0.1"
+    # which port is your redis server host?
+    port = 6379
+    # which db your data reside in ?
+    db = 1
+# the status and order store position
+[redis]
+    # local ip or remote ip ?
+    host = "127.0.0.1"
+    # which port is your redis server host?
+    port = 6379
+    # which db your data reside in ?
+    db = 1
+
+[mqtt]
+    host = '127.0.0.1'  # MQTT broker服务地址
+    port = 1883         # MQTT broker服务地址
+    client_id = ''      # 客户端ID，为空则使用随机值
+    keepalive = 60      # 心跳包发送时间间隔
+    username = ''
+    password = ''
+    qos = 2             # 服务质量，可选值为：0, 1, 2
+    topics = ['test']   # 发布/订阅的主题
+
+[kafka]
+    bootstrap_servers = "127.0.0.1:9092"
+    topic = "custom_collector_json"
+    org = 3101
+    dataid = 3502
+    ip = "127.0.0.1"
+
+[influxdb]
+    host = "10.0.0.0"
+    port = 8086
+    username =""
+    password = ""
+    db = ""
+
+[web]
+    set_name = 'status'
+    order_status = 'get_status'
+
+[log_configuration]
+    console = true
+    console_level = 'DEBUG'   #'DEBUG','INFO','WARNING','ERROR','CRITICAL'
+    file = true
+    file_level = 'DEBUG'  #'DEBUG','INFO','WARNING','ERROR','CRITICAL'
+    remote = true
+    remote_level = 'ERROR'  #'DEBUG','INFO','WARNING','ERROR','CRITICAL'
+    log_file = 'logs/log.log'
+    backup_count = 5
+    max_size = 10240000
+    format_string = '(%(asctime)s), %(levelname)s, <%(threadName)s>, %(module)s, %(funcName)s, [%(lineno)d]: %(message)s'
