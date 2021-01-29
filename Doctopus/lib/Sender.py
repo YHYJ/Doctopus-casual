@@ -59,8 +59,9 @@ class Sender(object):
         :return:
         """
         table_name = data['table_name']
-        fields = data['fields']
+        deviceid = data['deviceid']
         timestamp = data['timestamp']
+        fields = data['fields']
 
         if 'unit' in fields.keys():
             if fields['unit'] == 's':
@@ -73,19 +74,24 @@ class Sender(object):
             date_time = datetime.datetime.fromtimestamp(timestamp).strftime(
                 "%Y-%m-%d %H:%M:%S")
 
-        log_str = self.log_format.format(table_name, fields, date_time)
+        log_str = self.log_format.format(table_name, deviceid, date_time,
+                                         fields)
         # show log or not
         if self.enque_log_flag:
             log.info(log_str)
         # pack data by msgpack ready to send to redis
         table_name = msgpack.packb(table_name)
-        fields = msgpack.packb(fields)
+        deviceid = msgpack.packb(deviceid)
         timestamp = msgpack.packb(timestamp)
+        fields = msgpack.packb(fields)
         # send data to redis
         try:
-            lua_info = self.db.enqueue(table_name=table_name,
-                                       fields=fields,
-                                       timestamp=timestamp)
+            lua_info = self.db.enqueue(
+                table_name=table_name,
+                deviceid=deviceid,
+                timestamp=timestamp,
+                fields=fields,
+            )
             log.info(lua_info.decode())
         except Exception as err:
             log.error(err)

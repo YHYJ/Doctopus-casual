@@ -184,6 +184,8 @@ class Transport:
             elif self.to_where == 'mqtt':
                 try:
                     schema, table = data.get('table_name').split('.')
+                    device_id = data.get('deviceid', str())
+                    deviceid = device_id if bool(device_id) else table
                     data['fields'].pop('tags', None)
                     data['fields'].pop('unit', None)
                     data.pop('table_name', None)
@@ -197,7 +199,7 @@ class Transport:
                         "timestamp": timestamp,
                         "schema": schema,
                         "table": table,
-                        "deviceid": table,
+                        "deviceid": deviceid,
                         "fields": fields
                     }
                     return json_data

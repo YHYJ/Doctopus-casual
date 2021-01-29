@@ -61,6 +61,7 @@ class Handler(object):
         self.field_name_list = self.conf.get('field_name_list', [])
         self.tags = self.conf.get('tags', None)
         self.table_name = self.conf.get('table_name', 'influxdb')
+        self.deviceid = self.conf.get('deviceid', str())
         self.unit = self.conf.get('unit', 's')
 
     def work(self, queues, **kwargs):
@@ -101,7 +102,9 @@ class Handler(object):
         :param processed_dict:
         :return:
         """
-        table_name = processed_dict.get('table_name') or self.table_name
+        table_name = processed_dict.get('table_name', self.table_name)
+
+        deviceid = processed_dict.get('deviceid', self.deviceid)
 
         # make fields
         value_list = processed_dict.get('data_value')
@@ -131,8 +134,9 @@ class Handler(object):
         # data to put in send
         data_dict = {
             "table_name": table_name,
+            "deviceid": deviceid,
+            "timestamp": timestamp,
             "fields": fields,
-            "timestamp": timestamp
         }
 
         return data_dict

@@ -165,11 +165,13 @@ class RedisWrapper:
         :param kwargs: 位置参数
         :return: lua 脚本返回值
         """
+        table_name = kwargs.pop('table_name')
+        deviceid = kwargs.pop('deviceid')
         timestamp = kwargs.pop('timestamp')
         fields = kwargs.pop('fields')
-        table_name = kwargs.pop('table_name')
 
-        return self.__db.evalsha(self.sha, 1, table_name, fields, timestamp)
+        return self.__db.evalsha(self.sha, 1, table_name, deviceid, timestamp,
+                                 fields)
 
     def dequeue(self, key):
         """

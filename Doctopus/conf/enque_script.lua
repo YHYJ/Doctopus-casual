@@ -4,8 +4,9 @@
 -- 并且会每隔mark_range发送两条心跳信息
 
 local new_table_name = KEYS[1]
-local new_fields = ARGV[1]
+local new_deviceid = ARGV[1]
 local new_timestamp = ARGV[2]
+local new_fields = ARGV[3]
 
 -- Stream的最大尺寸
 local MAXLEN = 100000
@@ -118,6 +119,7 @@ if field_flag == true and mark_flag == true then
     all_fields["databeat"] = databeat_str
     local data = {
         table_name = new_table_name,
+        deviceid = new_deviceid,
         time = new_timestamp,
         fields = cmsgpack.pack(all_fields),
     }
@@ -132,6 +134,7 @@ elseif field_flag == true and mark_flag == false then
     all_fields["databeat"] = databeat_str
     local data = {
         table_name = new_table_name,
+        deviceid = new_deviceid,
         time = new_timestamp,
         fields = cmsgpack.pack(all_fields),
     }
@@ -146,6 +149,7 @@ elseif time_flag == true and mark_flag == true then
     all_fields["connbeat"] = connbeat_str
     local data = {
         table_name = new_table_name,
+        deviceid = new_deviceid,
         time = new_timestamp,
         fields = cmsgpack.pack(all_fields),
     }
@@ -159,6 +163,7 @@ elseif time_flag == true and mark_flag == false then
     all_fields["heartbeat"] = heartbeat_str
     local data = {
         table_name = new_table_name,
+        deviceid = new_deviceid,
         time = new_timestamp,
         fields = cmsgpack.pack(all_fields),
     }
