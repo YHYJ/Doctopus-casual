@@ -7,7 +7,7 @@ application = "ziyan"
     [user_conf.handler]
     # Handler() config
     table_name = 'Schema.Table'     # 表名
-    deviceid = ''                   # 设备编号，为空则取值为Table
+    deviceid = ''                   # 设备编号，为空则取值为Table名
     field_name_list = ['status', 'temp', 'msg']
     # 's' or 'u'
     unit = 's'  # 如果最终要持久化到TimescaleDB里，则unit的值必须是's'
