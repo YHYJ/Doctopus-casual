@@ -5,8 +5,6 @@
 import json
 import logging
 
-from paho.mqtt.reasoncodes import ReasonCodes
-
 try:
     from queue import Queue
 except Exception:
