@@ -62,12 +62,7 @@ class MqttWrapper(object):
         except Exception as err:
             log.error("Connection error: {}".format(err))
 
-    def __on_connect(self,
-                     client,
-                     userdata,
-                     flags,
-                     reasonCode,
-                     properties=None):
+    def __on_connect(self, client, userdata, flags, reasonCode):
         """called when the broker respo nds to our connection request.
 
         :client: client instance that is calling the callback
@@ -75,8 +70,6 @@ class MqttWrapper(object):
         :flags: a dict that contains response flags from the broker
         :reasonCode: the connection result
                      May be compared to interger
-        :properties: the MQTT v5.0 properties returned from the broker
-                     For MQTT v3.1 and v3.1.1, properties = None
 
         The value of reasonCode indicates success or not:
             0: Connection successful
@@ -94,15 +87,13 @@ class MqttWrapper(object):
             log.error('Connection error, reasonCode = {}'.format(reasonCode))
             client.disconnect()
 
-    def __on_disconnect(self, client, userdata, reasonCode, properties=None):
+    def __on_disconnect(self, client, userdata, reasonCode):
         """called when the client disconnects from the broker.
 
         :client: client instance that is calling the callback
         :userdata: user data of any type
         :reasonCode: the disconnection result
                      The reasonCode parameter indicates the disconnection state
-        :properties: the MQTT v5.0 properties returned from the broker
-                     For MQTT v3.1 and v3.1.1, properties = None
 
         """
         log.info("Disconnection with reasonCode = {}".format(reasonCode))
@@ -126,12 +117,7 @@ class MqttWrapper(object):
         """
         log.info('Published success, mid = {}'.format(mid))
 
-    def __on_subscribe(self,
-                       client,
-                       userdata,
-                       mid,
-                       granted_qos,
-                       properties=None):
+    def __on_subscribe(self, client, userdata, mid, granted_qos):
         """called when the broker responds to a subscribe request.
 
         :client: client instance that is calling the callback
@@ -140,14 +126,12 @@ class MqttWrapper(object):
               publish() call, to allow outgoing messages to be tracked
         :granted_qos: list of integers that give the QoS level the broker has
                       granted for each of the different subscription requests
-        :properties: the MQTT v5.0 properties returned from the broker
-                     For MQTT v3.1 and v3.1.1, properties = None
 
         Expected signature for MQTT v3.1.1 and v3.1 is:
-            callback(client, userdata, mid, granted_qos, properties=None)
+            callback(client, userdata, mid, granted_qos)
 
         and for MQTT v5.0:
-            callback(client, userdata, mid, reasonCodes, properties)
+            callback(client, userdata, mid, reasonCodes)
 
         """
         log.info('Subscribed success, mid = {} granted_qos = {} '.format(
