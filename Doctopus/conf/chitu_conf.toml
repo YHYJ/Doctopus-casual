@@ -24,14 +24,15 @@ send_to_where = 'TODO'      # chitu将数据发送到哪里，可选值为：inf
     db = 1
 
 [mqtt]
-    host = '127.0.0.1'  # MQTT broker服务地址
-    port = 1883         # MQTT broker服务地址
-    client_id = ''      # 客户端ID，为空则使用随机值
-    keepalive = 60      # 心跳包发送时间间隔
-    username = ''
-    password = ''
-    qos = 2             # 服务质量，可选值为：0, 1, 2
-    topics = ['test']   # 发布/订阅的主题
+    host = '127.0.0.1'      # MQTT broker服务地址
+    port = 1883             # MQTT broker服务地址
+    client_id = ''          # 客户端ID，为None或长度为0则使用随机值
+    clean_session = false   # 是否清除连接会话，当client_id取随机值时必须为true
+    username = ''           # 连接用户名
+    password = ''           # 连接密码
+    qos = 2                 # 服务质量，可选值为：0, 1, 2
+    topics = ['test']       # 发布/订阅的主题
+    keepalive = 60          # 心跳包发送时间间隔
 
 [kafka]
     bootstrap_servers = "127.0.0.1:9092"
