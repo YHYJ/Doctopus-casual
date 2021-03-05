@@ -5,6 +5,8 @@
 import json
 import logging
 
+from paho.mqtt.reasoncodes import ReasonCodes
+
 try:
     from queue import Queue
 except Exception:
@@ -13,6 +15,16 @@ except Exception:
 import paho.mqtt.client as MqttClient
 
 log = logging.getLogger(__name__)
+
+RC_PHRASE = {
+    0: 'connection successful',
+    1: 'connection refused - incorrect protocol version',
+    2: 'connection refused - invalid client identifier',
+    3: 'connection refused - server unavailable',
+    4: 'connection refused - bad username or password',
+    5: 'connection refused - not authorised',
+    # 6-255: Currently unused
+}
 
 
 class MqttWrapper(object):
@@ -70,21 +82,11 @@ class MqttWrapper(object):
         :flags: a dict that contains response flags from the broker
         :reasonCode: the connection result
                      May be compared to interger
-
-        The value of reasonCode indicates success or not:
-            0: Connection successful
-            1: Connection refused - incorrect protocol version
-            2: Connection refused - invalid client identifier
-            3: Connection refused - server unavailable
-            4: Connection refused - bad username or password
-            5: Connection refused - not authorised
-            6-255: Currently unused
-
         """
         if reasonCode == 0:
-            log.info('MQTT bridge connected')
+            log.info('MQTT {}'.format(RC_PHRASE[reasonCode]))
         else:
-            log.error('Connection error, reasonCode = {}'.format(reasonCode))
+            log.error('MQTT {}'.format(RC_PHRASE[reasonCode]))
             client.disconnect()
 
     def __on_disconnect(self, client, userdata, reasonCode):
@@ -96,7 +98,7 @@ class MqttWrapper(object):
                      The reasonCode parameter indicates the disconnection state
 
         """
-        log.info("Disconnection with reasonCode = {}".format(reasonCode))
+        log.warning('MQTT {}'.format(RC_PHRASE[reasonCode]))
         #  client.loop_stop()
 
     def __on_publish(self, client, userdata, mid):
