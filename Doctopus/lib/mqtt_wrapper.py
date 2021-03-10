@@ -70,7 +70,7 @@ class MqttWrapper(object):
                                  port=self._port,
                                  keepalive=self._keepalive)
         except Exception as err:
-            log.error("Connection error: {}".format(err))
+            log.error("MQTT connection failed: {}".format(err))
 
     def __on_connect(self, client, userdata, flags, reasonCode):
         """called when the broker respo nds to our connection request.
