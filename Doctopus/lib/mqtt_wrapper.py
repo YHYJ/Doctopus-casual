@@ -66,6 +66,7 @@ class MqttWrapper(object):
         self._client.on_message = self.__on_message
 
         try:
+            log.info("Connecting to MQTT")
             self._client.connect(host=self._hostname,
                                  port=self._port,
                                  keepalive=self._keepalive)
