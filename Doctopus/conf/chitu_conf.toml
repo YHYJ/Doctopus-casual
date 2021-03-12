@@ -32,7 +32,7 @@ send_to_where = 'TODO'      # chitu将数据发送到哪里，可选值为：inf
     password = ''           # 连接密码
     qos = 2                 # 服务质量，可选值为：0, 1, 2
     topics = ['test']       # 发布/订阅的主题
-    keepalive = 60          # 心跳包发送时间间隔
+    keepalive = 600         # 心跳时间，单位秒
 
 [kafka]
     bootstrap_servers = "127.0.0.1:9092"
