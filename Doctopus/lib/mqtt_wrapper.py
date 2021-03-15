@@ -42,9 +42,9 @@ class MqttWrapper(object):
             'clean_session', False if self._client_id else True)
         self._username: str = conf.get('username', None)
         self._password: str = conf.get('password', None)
-        self._qos: int = conf.get('qos', 2)
+        self._qos: int = conf.get('qos', 1)
         self._topics: list = conf.get('topics', list())
-        self._keepalive: int = conf.get('keepalive', 60)
+        self._keepalive: int = conf.get('keepalive', 600)
 
         # queue
         self.sub_queue = Queue()

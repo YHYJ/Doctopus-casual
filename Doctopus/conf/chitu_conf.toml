@@ -27,10 +27,10 @@ send_to_where = 'TODO'      # chitu将数据发送到哪里，可选值为：inf
     host = '127.0.0.1'      # MQTT broker服务地址
     port = 1883             # MQTT broker服务地址
     client_id = ''          # 客户端ID，为None或长度为0则使用随机值
-    clean_session = true    # 是否清除连接会话，当client_id取随机值时必须为true
+    clean_session = false   # 是否清除连接会话，当client_id取随机值时必须为true
     username = ''           # 连接用户名
     password = ''           # 连接密码
-    qos = 2                 # 服务质量，可选值为：0, 1, 2
+    qos = 1                 # 服务质量，可选值为：0, 1, 2
     topics = ['test']       # 发布/订阅的主题
     keepalive = 600         # 心跳时间，单位秒
 
