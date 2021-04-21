@@ -125,7 +125,7 @@ if field_flag == true and mark_flag == true then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "*", "MAXLEN", MAXLEN, "data", msg)
+    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
 
     return 'Field enque completed.'
 elseif field_flag == true and mark_flag == false then
@@ -140,7 +140,7 @@ elseif field_flag == true and mark_flag == false then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "*", "MAXLEN", MAXLEN, "data", msg)
+    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
 
     return 'Field enque completed.'
 elseif time_flag == true and mark_flag == true then
@@ -155,7 +155,7 @@ elseif time_flag == true and mark_flag == true then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "*", "MAXLEN", MAXLEN, "data", msg)
+    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
 
     return 'Time enque completed.'
 elseif time_flag == true and mark_flag == false then
@@ -169,7 +169,7 @@ elseif time_flag == true and mark_flag == false then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "*", "MAXLEN", MAXLEN, "data", msg)
+    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
 
     return 'Time enque completed.'
 else

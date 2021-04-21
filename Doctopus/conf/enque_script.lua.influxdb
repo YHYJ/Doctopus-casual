@@ -105,7 +105,7 @@ elseif t_flag == true then
     }
     local msg = cmsgpack.pack(data)
     -- redis.call("RPUSH", "data_queue", msg) -- msg queue
-    redis.call("XADD", "data_stream", "*", "MAXLEN", MAXLEN, "data", msg)
+    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
     return 'heart beat enque worked~'
 else
     return 'ignoring schema worked!'
