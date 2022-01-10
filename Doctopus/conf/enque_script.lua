@@ -9,7 +9,7 @@ local new_timestamp = ARGV[2]
 local new_fields = ARGV[3]
 
 -- Stream的最大尺寸
-local MAXLEN = 100000
+local MAXLEN = 1000
 
 -- 'new_timestamp'和'old_timestamp'之间差的时间（单位秒）
 local time_range = 10
@@ -111,6 +111,7 @@ local heartbeat_str = {name = "heartbeat", title = "存活心跳", value = 1, ty
 local connbeat_str = {name = "connbeat", title = "网络心跳", value = 1, type = "int", unit = nil}   -- 表示网络连接（有瑕疵）
 local databeat_str = {name = "databeat", title = "数据心跳", value = 1, type = "int", unit = nil}   -- 表示有新数据
 local all_fields = cmsgpack.unpack(new_fields)
+redis.call("XTRIM", "data_stream", "MAXLEN", MAXLEN)
 -- 根据field_flag、time_flag和mark_flag的值将对应格式的数据写入redis
 if field_flag == true and mark_flag == true then
     -- 有新数据且过了mark_range时间
@@ -125,7 +126,7 @@ if field_flag == true and mark_flag == true then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
+    redis.call("XADD", "data_stream", "*", "data", msg)
 
     return 'Field enque completed.'
 elseif field_flag == true and mark_flag == false then
@@ -140,7 +141,7 @@ elseif field_flag == true and mark_flag == false then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
+    redis.call("XADD", "data_stream", "*", "data", msg)
 
     return 'Field enque completed.'
 elseif time_flag == true and mark_flag == true then
@@ -155,7 +156,7 @@ elseif time_flag == true and mark_flag == true then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
+    redis.call("XADD", "data_stream", "*", "data", msg)
 
     return 'Time enque completed.'
 elseif time_flag == true and mark_flag == false then
@@ -169,7 +170,7 @@ elseif time_flag == true and mark_flag == false then
     }
 
     local msg = cmsgpack.pack(data)
-    redis.call("XADD", "data_stream", "MAXLEN", MAXLEN, "*", "data", msg)
+    redis.call("XADD", "data_stream", "*", "data", msg)
 
     return 'Time enque completed.'
 else
